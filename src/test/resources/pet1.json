@@ -1,0 +1,22 @@
+{
+  "id": 1989040612,
+  "category": {
+    "id": 1,
+    "name": "dog"
+  },
+  "name": "Snoopy",
+  "photoUrls": [
+    "image01"
+  ],
+  "tags": [
+    {
+      "id": 1,
+      "name": "lovely"
+    },
+    {
+      "id": 2,
+      "name": "iterasys"
+    }
+  ],
+  "status": "available"
+}

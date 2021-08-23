@@ -11,15 +11,15 @@ import static org.hamcrest.Matchers.is;
 
 public class Pet {
     String uri = "https://petstore.swagger.io/v2/pet"; // endereço da entidade Pet
-    Long petId;
+    Integer petId;
 
     public String readData(String urlData) throws IOException {
         return new String(Files.readAllBytes(Paths.get(urlData)));
     }
 
-    @Test (priority = 0)// Anotation que identifica o método ou função como um teste para o TestNG
+    @Test // Anotation que identifica o método ou função como um teste para o TestNG
     public void createPet() throws IOException {
-        String jsonBody = readData("data/pet1.json");
+        String jsonBody = readData("src/test/resources/pet1.json");
         petId =
 
         // Sintaxe Gherkin - Dado | Quando | Então - Given | When | Then
@@ -39,7 +39,7 @@ public class Pet {
         .extract()
                 .path("id")
         ;
-        System.out.println("O id do pet é " + petId);
+       System.out.println("O id do pet é " + petId.toString());
     }
 
     @Test (priority = 1)
@@ -56,4 +56,37 @@ public class Pet {
                 .body("name", is("Snoopy"))
         ;
     }
+
+    @Test(priority = 2)
+    public void updatePet() throws IOException{
+        String jsonBody = readData("src/test/resources/pet2.json");
+
+        given()
+                .contentType("application/json")
+                .log().all()
+                .body(jsonBody)
+        .when()
+                .put(uri)
+        .then()
+                .log().all()
+                .statusCode(200)
+                .body("name", is("Snoopy"))
+                .body("status", is("sold"))
+        ;
+    }
+
+    @Test(priority = 3)
+    public void deletePet(){
+
+        given()
+                .contentType("application/json")
+                .log().all()
+        .when()
+                .delete(uri + '/' + petId.toString())
+        .then()
+                .log().all()
+                .statusCode(200)
+        ;
+    }
 }
+
